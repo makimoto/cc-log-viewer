@@ -1,0 +1,4 @@
+.claude/
+.claude_working_dir/
+.mcp.json
+*.db

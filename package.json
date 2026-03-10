@@ -1,0 +1,39 @@
+{
+  "name": "@makimoto/cc-log-viewer",
+  "version": "0.1.0",
+  "description": "Search through Claude Code session logs with full-text search",
+  "author": "Shimpei Makimoto",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makimoto/cc-log-viewer.git"
+  },
+  "homepage": "https://github.com/makimoto/cc-log-viewer",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "search",
+    "session",
+    "logs"
+  ],
+  "bin": {
+    "cc-log-viewer": "./bin/cc-log-viewer.js"
+  },
+  "files": [
+    "bin/",
+    "src/"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.0.0",
+    "express": "^4.21.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,8 @@
+node_modules/
+.claude_working_dir/
+.claude/
+.mcp.json
+*.db
+.yarn/
+.pnp.*
+yarn.lock
