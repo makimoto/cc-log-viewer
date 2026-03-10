@@ -22,14 +22,20 @@ function sanitizeFtsQuery(q) {
   if (!terms.length || (terms.length === 1 && terms[0] === "")) {
     return '""';
   }
-  const quoted = [];
+  const cleaned = [];
   for (const term of terms) {
-    const clean = term.replace(/["\x00]/g, "");
+    // Strip FTS5 special chars
+    const clean = term.replace(/["\x00*(){}^~:]/g, "");
     if (clean) {
-      quoted.push(`"${clean}"`);
+      cleaned.push(clean);
     }
   }
-  return quoted.length ? quoted.join(" ") : '""';
+  if (!cleaned.length) return '""';
+  // Quote all terms except the last; last term uses prefix matching (*)
+  const parts = cleaned.slice(0, -1).map((t) => `"${t}"`);
+  const last = cleaned[cleaned.length - 1];
+  parts.push(`"${last}"*`);
+  return parts.join(" ");
 }
 
 // SPA routing
