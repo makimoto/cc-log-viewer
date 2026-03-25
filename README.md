@@ -14,7 +14,9 @@ Opens at http://127.0.0.1:8899
 
 ## Features
 
+- CLI search mode with JSON output for AI agents and scripting
 - Full-text search across all Claude Code sessions using SQLite FTS5
+- Prefix matching for partial search terms (e.g., "API-8" matches "API-8853")
 - Filter by project, git branch, and role (user/assistant)
 - Session list view with metadata (summary, branch, timestamps)
 - Session detail view with full conversation history
@@ -36,15 +38,36 @@ cc-log-viewer
 
 ## CLI Options
 
-```
-cc-log-viewer [options]
+### Web server (default)
 
-Options:
-  --port <number>    Port to listen on (default: 8899)
-  --host <string>    Host to bind to (default: 127.0.0.1)
-  --reindex          Reindex sessions and exit
-  --reindex-force    Force full reindex and exit
-  --stats            Show index stats and exit
+```
+cc-log-viewer [--port <number>] [--host <string>]
+```
+
+### CLI search mode
+
+Search and retrieve session data as JSON, suitable for AI agents and scripting.
+
+```bash
+# Search messages (outputs JSON)
+cc-log-viewer search "API-8853"
+cc-log-viewer search "API-8" --project td-api --role assistant --limit 10
+
+# List sessions
+cc-log-viewer sessions [--project <name>] [--branch <name>] [--limit <n>]
+
+# Get full session detail
+cc-log-viewer session <session-id>
+```
+
+Prefix matching is supported: `"API-8"` matches `API-8853`, `API-8654`, etc.
+
+### Other options
+
+```
+cc-log-viewer --reindex          Reindex sessions and exit
+cc-log-viewer --reindex-force    Force full reindex and exit
+cc-log-viewer --stats            Show index stats and exit
 ```
 
 ## How It Works
