@@ -43,8 +43,8 @@ function search(q, { project, branch, role, limit = 100, offset = 0 } = {}) {
   const params = { q: safeQ };
 
   if (project) {
-    filters += " AND s.project_name = $project";
-    params.project = project;
+    filters += " AND (s.project_name LIKE $projectPattern OR s.project_path LIKE $projectPattern)";
+    params.projectPattern = `%${project}%`;
   }
   if (branch) {
     filters += " AND s.git_branch = $branch";
@@ -100,8 +100,8 @@ function listSessions({ project, branch, limit = 100, offset = 0 } = {}) {
   const params = {};
 
   if (project) {
-    filters += " AND project_name = $project";
-    params.project = project;
+    filters += " AND (project_name LIKE $projectPattern OR project_path LIKE $projectPattern)";
+    params.projectPattern = `%${project}%`;
   }
   if (branch) {
     filters += " AND git_branch = $branch";

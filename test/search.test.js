@@ -206,7 +206,7 @@ describe("search module", () => {
       assert.ok(result.sessions.length >= 1);
     });
 
-    it("filters by project", () => {
+    it("filters by project (exact name)", () => {
       const result = search.listSessions({ project: "test-project" });
       assert.ok(result.total >= 1);
       for (const s of result.sessions) {
@@ -216,6 +216,25 @@ describe("search module", () => {
       const empty = search.listSessions({ project: "nonexistent-project" });
       assert.equal(empty.total, 0);
       assert.deepEqual(empty.sessions, []);
+    });
+
+    it("filters by project (partial name match)", () => {
+      const result = search.listSessions({ project: "test" });
+      assert.ok(result.total >= 1);
+      for (const s of result.sessions) {
+        assert.ok(
+          s.project_name.includes("test") || (s.project_path && s.project_path.includes("test")),
+          `expected project_name or project_path to contain "test"`
+        );
+      }
+    });
+
+    it("filters by project (project_path match)", () => {
+      const result = search.listSessions({ project: "/tmp/test-project" });
+      assert.ok(result.total >= 1);
+      for (const s of result.sessions) {
+        assert.equal(s.project_path, "/tmp/test-project");
+      }
     });
   });
 
